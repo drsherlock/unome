@@ -13,6 +13,7 @@ $dbuser = $user;
 $dbpass = $pass;
 $dbname = $name;
 
+//Create database connection
 $dbconn = new MySQLi($dbhost, $dbuser, $dbpass, $dbname);
 
 if(mysqli_connect_errno()) {
