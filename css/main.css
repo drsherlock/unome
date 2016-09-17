@@ -1,0 +1,47 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    text-align: center;
+}
+
+#index-con {
+    height: 100%;
+}
+
+#index-row {
+    height: 100%;
+}
+
+#index-left {
+    background-color: crimson;
+    height: 100%;
+}
+
+#index-right {
+    background-color: cornflowerblue;
+    height: 100%;
+}
+
+#index-outer-form {
+    height: 100%;
+}
+
+.index-mid-form {
+    height: 45%;
+    position: relative;
+}
+
+.index-inner-form {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+#index-main {
+    margin-top: 25%;
+}

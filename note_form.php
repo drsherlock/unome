@@ -6,11 +6,13 @@
  * Time: 7:24 PM
  */
 
+include_once("header.php");
+
 session_start();
 
 //Go to login page if not logged in
 if(!isset($_SESSION['user_session'])) {
-    header("Location: login_form.php");
+    header("Location: index.php");
 }
 
 require_once('db_connect.php');
@@ -48,3 +50,9 @@ mysqli_close($dbconn);
 <form method="get" action="home.php">
     <button type="submit">Cancel</button>
 </form>
+
+<?php
+
+include_once("footer.php") ;
+
+?>

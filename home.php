@@ -6,19 +6,21 @@
  * Time: 5:37 PM
  */
 
+include_once("header.php");
+
 echo "Heloooo!";
 
 session_start();
 
 //Go to login page if not logged in
 if(!isset($_SESSION['user_session'])) {
-    header("Location: login_form.php");
+    header("Location: index.php");
 }
 
 //Go to login when user clicks logout
 if(isset($_GET['logout_btn'])) {
     session_destroy();
-    header("Location: login_form.php");
+    header("Location: index.php");
 }
 
 require_once('db_connect.php');
@@ -48,3 +50,8 @@ mysqli_close($dbconn);
 </form>
 
 
+<?php
+
+include_once("footer.php") ;
+
+?>

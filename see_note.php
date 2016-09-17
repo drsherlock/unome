@@ -6,11 +6,13 @@
  * Time: 10:58 PM
  */
 
+include_once("header.php");
+
 session_start();
 
 //Go to login page if not logged in
 if(!isset($_SESSION['user_session'])) {
-    header("Location: login_form.php");
+    header("Location: index.php");
 }
 
 require_once("db_connect.php");
@@ -61,3 +63,9 @@ mysqli_close($dbconn);
 <form method="post" action="see_note.php?id=<?php echo $note_id; ?>">
     <button type="submit" name="del_note_btn">Delete</button>
 </form>
+
+<?php
+
+include_once("footer.php") ;
+
+?>
