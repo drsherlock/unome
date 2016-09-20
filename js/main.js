@@ -83,7 +83,7 @@ $(document).ready(function() {
 
 
     function enableButton () {
-git        if (usernameFlag === 0 && emailFlag === 0 && passwordFlag === 0) {
+        if (usernameFlag === 0 && emailFlag === 0 && passwordFlag === 0) {
             $("#register_btn").prop("disabled", false);
         }
         else {
