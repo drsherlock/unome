@@ -26,33 +26,10 @@ if(isset($_POST['register_btn'])) {
 //    Create password hash
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    $query = "SELECT * from users WHERE email = '$email'";
+    $query = "INSERT into users(username, email, password) VALUES('$username', '$email', '$password')";
     $query_result = mysqli_query($dbconn, $query) or die(mysqli_error($dbconn));
-    $result_rows = mysqli_num_rows($query_result);
-
-//    If email already present in users table
-    if($result_rows != 0) {
-        $error_msg = "Email already registered!";
-    }
-
-    $query = "SELECT * from users WHERE username = '$username'";
-    $query_result = mysqli_query($dbconn, $query) or die(mysqli_error($dbconn));
-    $result_rows = mysqli_num_rows($query_result);
-
-//    If username already taken
-    if($result_rows != 0) {
-        $error_msg = "Username taken!";
-    }
-
-    if($error_msg) {
-        echo $error_msg;
-    }
-//    If no error, register user and redirect to login page
-    else {
-        $query = "INSERT into users(username, email, password) VALUES('$username', '$email', '$password')";
-        $query_result = mysqli_query($dbconn, $query) or die(mysqli_error($dbconn));
-        header("Location: index.php");
-    }
+    $_SESSION['user_session'] = $username;
+    header("Location: home.php");
 }
 
 //When user clicks login button
@@ -103,15 +80,41 @@ mysqli_close($dbconn);
             <div id="index-outer-form">
                 <div class="index-mid-form row">
                     <!--Register Form-->
-                    <div class="index-inner-form col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                    <div class="index-inner-form col-xs-10 col-lg-10 col-xs-offset-1 col-lg-offset-1">
                         <h3>Register</h3>
                         <br>
                         <form method="post" action = "index.php" class="form-group">
-                            <input type="text" placeholder="Username" name="username" class="form-control" required /> <br>
-                            <input type="email" placeholder="Email" name="email" class="form-control" required /> <br>
-                            <input type="password" placeholder="Password" name="password" class="form-control" required /> <br>
-                            <button type="submit" name="register_btn" class="btn btn-default">Register</button>
+                            <div class="row">
+                                <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                                    <input type="text" placeholder="Username" name="username" id="reg_username" class="form-control" required />
+                                </div>
+                                <div class="col-xs-2 col-lg-2">
+                                    <i id="tick_username" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_username" class="fa fa-2x fa-times" aria-hidden="true"></i>
+                                </div>
+                            </div>
                             <br>
+                            <div class="row">
+                                <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                                    <input type="email" placeholder="Email" name="email" id="reg_email" class="form-control" required />
+                                </div>
+                                <div class="col-xs-2 col-lg-2">
+                                    <i id="tick_email" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_email" class="fa fa-2x fa-times" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                                    <input type="password" placeholder="Password" name="password" id="reg_password" class="form-control" required />
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-6 col-lg-6 col-xs-offset-3 col-lg-offset-3">
+                                    <button type="submit" name="register_btn" class="btn btn-default" id="register_btn" disabled>Register</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -120,13 +123,27 @@ mysqli_close($dbconn);
 
                 <div class="index-mid-form row">
                     <!--Login form-->
-                    <div class=" index-inner-form col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                    <div class=" index-inner-form col-xs-10 col-lg-10 col-xs-offset-1 col-lg-offset-1">
                         <h3>Login</h3>
                         <br>
                         <form method="post" action="index.php" class="form-group">
-                            <input type="email" placeholder="Email" name="email" class="form-control" required /> <br>
-                            <input type="password" placeholder="Password" name="password" class="form-control" required /> <br>
-                            <button type="submit" name="login_btn" class="btn btn-default">Login</button>
+                            <div class="row">
+                                <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                                    <input type="email" placeholder="Email" name="email" class="form-control" required />
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
+                                    <input type="password" placeholder="Password" name="password" class="form-control" required />
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-6 col-lg-6 col-xs-offset-3 col-lg-offset-3">
+                                    <button type="submit" name="login_btn" class="btn btn-default" disabled>Login</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -134,7 +151,6 @@ mysqli_close($dbconn);
         </div>
     </div>
 </div>
-
 
 <?php
 

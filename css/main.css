@@ -45,3 +45,7 @@ body {
 #index-main {
     margin-top: 25%;
 }
+
+#tick_username, #tick_email, #cross_username, #cross_email {
+    display:none
+}
