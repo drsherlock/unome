@@ -129,19 +129,19 @@ mysqli_close($dbconn);
                         <form method="post" action="index.php" class="form-group">
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="email" placeholder="Email" name="email" class="form-control" required />
+                                    <input type="email" placeholder="Email" name="email" class="form-control" id="login_email" required />
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="password" placeholder="Password" name="password" class="form-control" required />
+                                    <input type="password" placeholder="Password" name="password" class="form-control" id="login_password" required />
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-xs-6 col-lg-6 col-xs-offset-3 col-lg-offset-3">
-                                    <button type="submit" name="login_btn" class="btn btn-default" disabled>Login</button>
+                                    <button type="submit" name="login_btn" class="btn btn-default" id="login_btn" disabled>Login</button>
                                 </div>
                             </div>
                         </form>

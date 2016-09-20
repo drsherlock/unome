@@ -10,8 +10,10 @@ $(document).ready(function() {
             usernameCheck(username).done(usernameCallback);
         }
         else {
+            usernameFlag = 1;
             $("#tick_username").hide();
             $("#cross_username").hide();
+            enableButton();
         }
     });
 
@@ -21,8 +23,10 @@ $(document).ready(function() {
             emailCheck(email).done(emailCallback);
         }
         else {
+            emailFlag = 1;
             $("#tick_email").hide();
             $("#cross_email").hide();
+            enableButton();
         }
     });
 
@@ -34,6 +38,7 @@ $(document).ready(function() {
         }
         else {
             passwordFlag = 1;
+            enableButton();
         }
     });
 
