@@ -41,25 +41,9 @@ if(isset($_POST['login_btn'])) {
     $query_result = mysqli_query($dbconn, $query) or die(mysqli_error($dbconn));
     $result_rows = mysqli_num_rows($query_result);
 
-//    If email not present in users table
-    if($result_rows == 0) {
-        $error_msg = "Email not registerd!";
-        echo $error_msg;
-    }
-    else {
-        $row = mysqli_fetch_assoc($query_result);
-        $pass = password_verify($password, $row['password']);
-//        If password does not match
-        if(!$pass) {
-            $error_msg = "Wrong password!";
-            echo $error_msg;
-        }
-//        If password matches, set session and redirect to home page
-        else {
-            $_SESSION['user_session'] = $row['username'];
-            header("Location: home.php");
-        }
-    }
+    $row = mysqli_fetch_assoc($query_result);
+    $_SESSION['user_session'] = $row['username'];
+    header("Location: home.php");
 }
 
 mysqli_close($dbconn);
@@ -86,27 +70,31 @@ mysqli_close($dbconn);
                         <form method="post" action = "index.php" class="form-group">
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="text" placeholder="Username" name="username" id="reg_username" class="form-control" required />
+                                    <input type="text" placeholder="Username" name="username" id="reg_username" class="form-control" />
                                 </div>
                                 <div class="col-xs-2 col-lg-2">
-                                    <i id="tick_username" class="fa fa-2x fa-check" aria-hidden="true"></i>
-                                    <i id="cross_username" class="fa fa-2x fa-times" aria-hidden="true"></i>
+                                    <i id="tick_reg_username" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_reg_username" class="fa fa-2x fa-times" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="email" placeholder="Email" name="email" id="reg_email" class="form-control" required />
+                                    <input type="email" placeholder="Email" name="email" id="reg_email" class="form-control" />
                                 </div>
                                 <div class="col-xs-2 col-lg-2">
-                                    <i id="tick_email" class="fa fa-2x fa-check" aria-hidden="true"></i>
-                                    <i id="cross_email" class="fa fa-2x fa-times" aria-hidden="true"></i>
+                                    <i id="tick_reg_email" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_reg_email" class="fa fa-2x fa-times" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="password" placeholder="Password" name="password" id="reg_password" class="form-control" required />
+                                    <input type="password" placeholder="Password" name="password" id="reg_password" class="form-control" />
+                                </div>
+                                <div class="col-xs-2 col-lg-2">
+                                    <i id="tick_reg_password" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_reg_password" class="fa fa-2x fa-times" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <br>
@@ -129,13 +117,21 @@ mysqli_close($dbconn);
                         <form method="post" action="index.php" class="form-group">
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="email" placeholder="Email" name="email" class="form-control" id="login_email" required />
+                                    <input type="email" placeholder="Email" name="email" class="form-control" id="login_email" />
+                                </div>
+                                <div class="col-xs-2 col-lg-2">
+                                    <i id="tick_login_email" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_login_email" class="fa fa-2x fa-times" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-xs-8 col-lg-8 col-xs-offset-2 col-lg-offset-2">
-                                    <input type="password" placeholder="Password" name="password" class="form-control" id="login_password" required />
+                                    <input type="password" placeholder="Password" name="password" class="form-control" id="login_password" />
+                                </div>
+                                <div class="col-xs-2 col-lg-2">
+                                    <i id="tick_login_password" class="fa fa-2x fa-check" aria-hidden="true"></i>
+                                    <i id="cross_login_password" class="fa fa-2x fa-times" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <br>
@@ -151,6 +147,14 @@ mysqli_close($dbconn);
         </div>
     </div>
 </div>
+
+<?php
+
+include_once("ext_scripts.php") ;
+
+?>
+
+<script type="text/javascript" src="/js/index.js"></script>
 
 <?php
 

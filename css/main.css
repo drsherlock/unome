@@ -46,6 +46,10 @@ body {
     margin-top: 25%;
 }
 
-#tick_username, #tick_email, #cross_username, #cross_email {
-    display:none
+#tick_reg_username, #tick_reg_email, #tick_reg_password, #cross_reg_username, #cross_reg_email, #cross_reg_password {
+    display: none
+}
+
+#tick_login_email, #tick_login_password, #cross_login_email, #cross_login_password {
+    display: none;
 }
