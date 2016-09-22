@@ -10,7 +10,7 @@ session_start();
 
 require_once('db_connect.php');
 
-if (isset($_POST['username'])) {
+if (isset($_POST['username'], $_POST['usernameCheck'])) {
     $username = mysqli_real_escape_string($dbconn, $_POST['username']);
 
     $query = "SELECT * from users WHERE username = '$username'";

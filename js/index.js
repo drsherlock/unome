@@ -11,62 +11,53 @@ $(function () {
     };
 
     var loginFlag = {
-        email: 1,
-        password: 1
+        email: 0,
+        password: 0
     };
 
     document.getElementById("reg_username").addEventListener("input", function () {
-        var username = $("#reg_username").val();
+        var username = $(this).val();
         if (!isBlank(username)) {
             usernameCheck(username).done(usernameRegCallback);
         }
         else {
             regFlag.username = 1;
-            $("#tick_reg_username").hide();
-            $("#cross_reg_username").hide();
-            enableButton("reg");
+            hideSign("reg", "username");
         }
     });
 
     document.getElementById("reg_email").addEventListener("input", function () {
-        var email = $("#reg_email").val();
+        var email = $(this).val();
         if (!isBlank(email)) {
             emailCheck(email).done(emailRegCallback);
         }
         else {
             regFlag.email = 1;
-            $("#tick_reg_email").hide();
-            $("#cross_reg_email").hide();
-            enableButton("reg");
+            hideSign("reg", "email");
         }
     });
 
     document.getElementById("reg_password").addEventListener("input", function () {
-        var password = $("#reg_password").val();
+        var password = $(this).val();
         if (!isBlank(password)) {
             regFlag.password = 0;
-            $("#cross_reg_password").hide();
-            $("#tick_reg_password").fadeIn();
+            showTick("reg", "password");
         }
         else {
             regFlag.password = 1;
-            $("#tick_reg_password").hide();
-            $("#cross_reg_password").hide();
+            hideSign("reg", "password");
         }
-        enableButton("reg");
     });
 
     document.getElementById("login_email").addEventListener("input", function () {
-        var email = $("#login_email").val();
+        var email = $(this).val();
         var password = $("#login_password").val();
         if (!isBlank(email)) {
             emailCheck(email).done(emailLoginCallback);
         }
         else {
             loginFlag.email = 0;
-            $("#tick_login_email").hide();
-            $("#cross_login_email").hide();
-            enableButton("login");
+            hideSign("login", "email");
         }
         if (!isBlank(password)) {
             passwordCheck(password, email).done(passwordLoginCallback);
@@ -74,80 +65,62 @@ $(function () {
     });
 
     document.getElementById("login_password").addEventListener("input", function () {
-        var password = $("#login_password").val();
+        var password = $(this).val();
         var email = $("#login_email").val();
         if (!isBlank(password)) {
             passwordCheck(password, email).done(passwordLoginCallback);
         }
         else {
             loginFlag.password = 0;
-            $("#tick_login_password").hide();
-            $("#cross_login_password").hide();
-            enableButton("login");
+            hideSign("login", "password");
         }
     });
 
     function usernameRegCallback(response) {
-        var usernameResponse = parseInt(response);
-        regFlag.username = usernameResponse;
-        if (usernameResponse === 1) {
-            $("#tick_reg_username").hide();
-            $("#cross_reg_username").fadeIn();
+        regFlag.username = parseInt(response);
+        if (regFlag.username === 1) {
+            showCross("reg", "username");
         }
         else {
-            $("#cross_reg_username").hide();
-            $("#tick_reg_username").fadeIn();
+            showTick("reg", "username");
         }
-        enableButton("reg");
     }
 
     function emailRegCallback(response) {
-        var emailResponse = parseInt(response);
-        regFlag.email = emailResponse;
-        if (emailResponse === 1 || emailResponse === -1) {
-            $("#tick_reg_email").hide();
-            $("#cross_reg_email").fadeIn();
+        regFlag.email = parseInt(response);
+        if (regFlag.email === 1 || regFlag.email === -1) {
+            showCross("reg", "email");
         }
         else {
-            $("#cross_reg_email").hide();
-            $("#tick_reg_email").fadeIn();
+            showTick("reg", "email");
         }
-        enableButton("reg");
     }
 
     function emailLoginCallback(response) {
-        var emailResponse = parseInt(response);
-        loginFlag.email = emailResponse;
-        if (emailResponse === 0 || emailResponse === -1) {
-            $("#tick_login_email").hide();
-            $("#cross_login_email").fadeIn();
+        loginFlag.email = parseInt(response);
+        if (loginFlag.email === 0 || loginFlag.email === -1) {
+            showCross("login", "email");
         }
         else {
-            $("#cross_login_email").hide();
-            $("#tick_login_email").fadeIn();
+            showTick("login", "email");
         }
-        enableButton("login");
     }
 
     function passwordLoginCallback(response) {
-        var passwordResponse = parseInt(response);
-        loginFlag.password = passwordResponse;
-        if (passwordResponse === 0) {
-            $("#tick_login_password").hide();
-            $("#cross_login_password").fadeIn();
+        loginFlag.password = parseInt(response);
+        if (loginFlag.password === 0) {
+            showCross("login", "password");
         }
         else {
-            $("#cross_login_password").hide();
-            $("#tick_login_password").fadeIn();
+            showTick("login", "password");
         }
-        enableButton("login");
     }
 
     function usernameCheck(username) {
         return $.ajax({
             type: "POST",
             url: "ajax_index.php",
-            data: "username=" + username
+            data: {username: username, usernameCheck: 1}
         });
     }
 
@@ -166,6 +139,9 @@ $(function () {
             data: {password: password, email: email, passCheck: 1}
         });
     }
+
+    //Utility functions
+
 
     function enableButton(form) {
         if (form === "reg") {
@@ -186,7 +162,26 @@ $(function () {
         }
     }
 
-    function isBlank(string) {
-        return string === null || string === ''
+    function isBlank(type) {
+        return type === null || type === '';
     }
+
+    function hideSign(form, type) {
+        $("#tick_" + form + "_" + type).hide();
+        $("#cross_" + form + "_" + type).hide();
+        enableButton(form);
+    }
+
+    function showCross(form, type) {
+        $("#tick_" + form + "_" + type).hide();
+        $("#cross_" + form + "_" + type).fadeIn();
+        enableButton(form);
+    }
+
+    function showTick(form, type) {
+        $("#cross_" + form + "_" + type).hide();
+        $("#tick_" + form + "_" + type).fadeIn();
+        enableButton(form);
+    }
+
 });
