@@ -4,16 +4,24 @@
 
 $(function () {
 
-    var usernameRegFlag = 1, emailRegFlag = 1, passwordRegFlag = 1;
-    var emailLoginFlag = 0, passwordLoginFlag = 0;
+    var regFlag = {
+        username: 1,
+        email: 1,
+        password: 1
+    };
+
+    var loginFlag = {
+        email: 1,
+        password: 1
+    };
 
     document.getElementById("reg_username").addEventListener("input", function () {
         var username = $("#reg_username").val();
-        if (username !== null && username !== "") {
+        if (!isBlank(username)) {
             usernameCheck(username).done(usernameRegCallback);
         }
         else {
-            usernameRegFlag = 1;
+            regFlag.username = 1;
             $("#tick_reg_username").hide();
             $("#cross_reg_username").hide();
             enableButton("reg");
@@ -22,11 +30,11 @@ $(function () {
 
     document.getElementById("reg_email").addEventListener("input", function () {
         var email = $("#reg_email").val();
-        if (email !== null && email !== "") {
+        if (!isBlank(email)) {
             emailCheck(email).done(emailRegCallback);
         }
         else {
-            emailRegFlag = 1;
+            regFlag.email = 1;
             $("#tick_reg_email").hide();
             $("#cross_reg_email").hide();
             enableButton("reg");
@@ -35,13 +43,13 @@ $(function () {
 
     document.getElementById("reg_password").addEventListener("input", function () {
         var password = $("#reg_password").val();
-        if (password !== null && password !== "") {
-            passwordRegFlag = 0;
+        if (!isBlank(password)) {
+            regFlag.password = 0;
             $("#cross_reg_password").hide();
             $("#tick_reg_password").fadeIn();
         }
         else {
-            passwordRegFlag = 1;
+            regFlag.password = 1;
             $("#tick_reg_password").hide();
             $("#cross_reg_password").hide();
         }
@@ -51,33 +59,28 @@ $(function () {
     document.getElementById("login_email").addEventListener("input", function () {
         var email = $("#login_email").val();
         var password = $("#login_password").val();
-        if (email !== null && email !== "") {
+        if (!isBlank(email)) {
             emailCheck(email).done(emailLoginCallback);
-            if (password !== null && password !== "") {
-                passwordCheck(password, email).done(passwordLoginCallback);
-            }
-            else {
-                $("#tick_login_password").hide();
-                $("#cross_login_password").hide();
-            }
         }
         else {
-            emailLoginFlag = 0;
+            loginFlag.email = 0;
             $("#tick_login_email").hide();
             $("#cross_login_email").hide();
-            passwordCheck(password, email).done(passwordLoginCallback);
             enableButton("login");
+        }
+        if (!isBlank(password)) {
+            passwordCheck(password, email).done(passwordLoginCallback);
         }
     });
 
     document.getElementById("login_password").addEventListener("input", function () {
         var password = $("#login_password").val();
         var email = $("#login_email").val();
-        if (password !== null && password !== "") {
+        if (!isBlank(password)) {
             passwordCheck(password, email).done(passwordLoginCallback);
         }
         else {
-            passwordLoginFlag = 0;
+            loginFlag.password = 0;
             $("#tick_login_password").hide();
             $("#cross_login_password").hide();
             enableButton("login");
@@ -86,7 +89,7 @@ $(function () {
 
     function usernameRegCallback(response) {
         var usernameResponse = parseInt(response);
-        usernameRegFlag = usernameResponse;
+        regFlag.username = usernameResponse;
         if (usernameResponse === 1) {
             $("#tick_reg_username").hide();
             $("#cross_reg_username").fadeIn();
@@ -100,7 +103,7 @@ $(function () {
 
     function emailRegCallback(response) {
         var emailResponse = parseInt(response);
-        emailRegFlag = emailResponse;
+        regFlag.email = emailResponse;
         if (emailResponse === 1 || emailResponse === -1) {
             $("#tick_reg_email").hide();
             $("#cross_reg_email").fadeIn();
@@ -114,7 +117,7 @@ $(function () {
 
     function emailLoginCallback(response) {
         var emailResponse = parseInt(response);
-        emailLoginFlag = emailResponse;
+        loginFlag.email = emailResponse;
         if (emailResponse === 0 || emailResponse === -1) {
             $("#tick_login_email").hide();
             $("#cross_login_email").fadeIn();
@@ -127,9 +130,8 @@ $(function () {
     }
 
     function passwordLoginCallback(response) {
-        console.log(" " + response + " ");
         var passwordResponse = parseInt(response);
-        passwordLoginFlag = passwordResponse;
+        loginFlag.password = passwordResponse;
         if (passwordResponse === 0) {
             $("#tick_login_password").hide();
             $("#cross_login_password").fadeIn();
@@ -167,7 +169,7 @@ $(function () {
 
     function enableButton(form) {
         if (form === "reg") {
-            if (usernameRegFlag === 0 && emailRegFlag === 0 && passwordRegFlag === 0) {
+            if (regFlag.username === 0 && regFlag.email === 0 && regFlag.password === 0) {
                 $("#register_btn").prop("disabled", false);
             }
             else {
@@ -175,7 +177,7 @@ $(function () {
             }
         }
         else if (form === "login") {
-            if (emailLoginFlag === 1 && passwordLoginFlag === 1) {
+            if (loginFlag.email === 1 && loginFlag.password === 1) {
                 $("#login_btn").prop("disabled", false);
             }
             else {
@@ -183,5 +185,8 @@ $(function () {
             }
         }
     }
-});
 
+    function isBlank(string) {
+        return string === null || string === ''
+    }
+});
